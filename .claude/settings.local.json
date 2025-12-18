@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(python:*)",
+      "Bash(venvScriptspython -m pip install -r requirements.txt)",
+      "Bash(curl:*)"
+    ]
+  }
+}
