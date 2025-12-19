@@ -4,7 +4,11 @@
       "Bash(tree:*)",
       "Bash(python:*)",
       "Bash(venvScriptspython -m pip install -r requirements.txt)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(./venv/Scripts/python.exe:*)",
+      "Bash(ls:*)",
+      "Bash(dir /s /b \"C:\\\\Spring\\\\NLP\\\\src\")",
+      "Bash(dir /s /b \"C:\\\\VSCode\\\\NLP-FE\\\\src\")"
     ]
   }
 }
