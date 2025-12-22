@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/recommend")
@@ -27,7 +29,19 @@ public class RecommendationController {
 
     @PostMapping
     @Operation(method = "POST", description = "사용자 질문을 받아 AI 기반 학과를 추천합니다.")
-    public RspTemplate<ChatResponse> getRecommendation(@RequestBody ChatRequest request) {
+    public RspTemplate<?> getRecommendation(@RequestBody ChatRequest request) {
+        String question = request.getQuestion() != null ? request.getQuestion() : "";
+        if (question.contains("요약")) {
+            String sessionId = request.getSessionId();
+            if (sessionId == null || sessionId.isBlank()) {
+                sessionId = UUID.randomUUID().toString();
+            }
+            RecommendationSummaryRequest summaryRequest =
+                    new RecommendationSummaryRequest(question, sessionId);
+            RecommendationSummaryResponse summary =
+                    recommendationSummaryService.getRecommendationSummary(summaryRequest);
+            return RspTemplate.success(Success.OK, summary);
+        }
         ChatResponse response = aiRecommendationService.getRecommendation(request);
         log.info("request dto: {}", request.getQuestion());
         return RspTemplate.success(Success.OK, response);
